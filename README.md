@@ -17,7 +17,7 @@ A complete backend expense tracking system built using **Flask**, **MySQL**, and
 
 ---
 
-## 🔧 Steps to Run the Application (6 marks)
+## 🔧 Steps to Run the Application 
 
 ### ▶️ Option 1: Run Locally
 
@@ -60,7 +60,7 @@ Visit [http://localhost:8000/test.html](http://localhost:8000/test.html)
 
 ---
 
-### 🐳 Option 2: Run with Docker (1 mark)
+### 🐳 Option 2: Run with Docker 
 
 #### 1. Start everything with Docker Compose:
 ```bash
@@ -74,7 +74,7 @@ docker-compose up --build
 
 ---
 
-## 🧪 Test Steps (1 mark)
+## 🧪 Test Steps 
 
 ### 🔘 Sample Test with curl
 
@@ -107,14 +107,14 @@ Or use the HTML `test.html` interface.
 
 ---
 
-## 📚 SQL / ORM Implementation (1 mark)
+## 📚 SQL / ORM Implementation 
 - All models use `SQLAlchemy`
 - Queries use ORM abstraction (`db.session.query`, `.filter_by`, `.group_by`)
 - `get_monthly_spending()` uses `func.sum` to calculate totals
 
 ---
 
-## 📄 In-Code Documentation (1 mark)
+## 📄 In-Code Documentation 
 - Each route includes inline comments
 - Utility functions like `check_alerts` are fully documented
 - Code is modular and split across files: `routes.py`, `utils.py`, `models.py`
