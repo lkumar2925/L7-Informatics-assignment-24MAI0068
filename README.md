@@ -1,5 +1,3 @@
-# L7-Informatics-assignment-24MAI0068
-
 # 💰 Expense Tracker API
 
 A complete backend expense tracking system built using **Flask**, **MySQL**, and **SQLAlchemy**, with testing tools and Docker support.

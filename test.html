@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expense Tracker API Tester</title>
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>💰 Expense Tracker Test Page</h1>
+
+  <!-- Create User -->
+  <h2>Create User</h2>
+  <input type="text" id="name" placeholder="Name">
+  <input type="email" id="email" placeholder="Email">
+  <button onclick="createUser()">Create</button>
+  <pre id="userResult"></pre>
+
+  <!-- Set Budget -->
+  <h2>Set Budget</h2>
+  <input type="number" id="budget_user" placeholder="User ID">
+  <input type="text" id="category" placeholder="Category (e.g. Food)">
+  <input type="text" id="month" placeholder="Month (YYYY-MM)">
+  <input type="number" id="limit" placeholder="Limit">
+  <button onclick="setBudget()">Set Budget</button>
+  <pre id="budgetResult"></pre>
+
+  <!-- Add Expense -->
+  <h2>Log Expense</h2>
+  <input type="number" id="exp_user" placeholder="User ID">
+  <input type="text" id="exp_category" placeholder="Category">
+  <input type="number" id="amount" placeholder="Amount">
+  <button onclick="logExpense()">Log Expense</button>
+  <pre id="expenseResult"></pre>
+
+  <!-- View Report -->
+  <h2>Get Report</h2>
+  <input type="number" id="rep_user" placeholder="User ID">
+  <input type="text" id="rep_month" placeholder="Month (YYYY-MM)">
+  <button onclick="getReport()">Get Report</button>
+  <pre id="reportResult"></pre>
+
+  <!-- Check Alerts -->
+  <h2>Check Alerts</h2>
+  <input type="number" id="alert_user" placeholder="User ID">
+  <input type="text" id="alert_month" placeholder="Month (YYYY-MM)">
+  <button onclick="checkAlerts()">Check Alerts</button>
+  <pre id="alertResult"></pre>
+
+  <script>
+    const base = "http://127.0.0.1:5000";
+
+    function handleSuccess(elementId, data) {
+      document.getElementById(elementId).innerHTML = `<code class="success">${JSON.stringify(data, null, 2)}</code>`;
+    }
+
+    function handleError(elementId, err) {
+      document.getElementById(elementId).innerHTML = `<code class="error">Error: ${err}</code>`;
+    }
+
+    function createUser() {
+      fetch(`${base}/user`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value
+        })
+      })
+      .then(res => res.json())
+      .then(data => handleSuccess("userResult", data))
+      .catch(err => handleError("userResult", err));
+    }
+
+    function setBudget() {
+      fetch(`${base}/budget`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: parseInt(document.getElementById("budget_user").value),
+          category: document.getElementById("category").value,
+          month: document.getElementById("month").value,
+          limit: parseFloat(document.getElementById("limit").value)
+        })
+      })
+      .then(res => res.json())
+      .then(data => handleSuccess("budgetResult", data))
+      .catch(err => handleError("budgetResult", err));
+    }
+
+    function logExpense() {
+      fetch(`${base}/expense`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: parseInt(document.getElementById("exp_user").value),
+          category: document.getElementById("exp_category").value,
+          amount: parseFloat(document.getElementById("amount").value)
+        })
+      })
+      .then(res => res.json())
+      .then(data => handleSuccess("expenseResult", data))
+      .catch(err => handleError("expenseResult", err));
+    }
+
+    function getReport() {
+      const uid = document.getElementById("rep_user").value;
+      const month = document.getElementById("rep_month").value;
+      fetch(`${base}/report/${uid}/${month}`)
+        .then(res => res.json())
+        .then(data => handleSuccess("reportResult", data))
+        .catch(err => handleError("reportResult", err));
+    }
+
+    function checkAlerts() {
+      const uid = document.getElementById("alert_user").value;
+      const month = document.getElementById("alert_month").value;
+      fetch(`${base}/alerts/${uid}/${month}`)
+        .then(res => res.json())
+        .then(data => handleSuccess("alertResult", data))
+        .catch(err => handleError("alertResult", err));
+    }
+  </script>
+</body>
+</html>
